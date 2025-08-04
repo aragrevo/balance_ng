@@ -1,6 +1,6 @@
-<div class="p-6">
+<main class="p-6 h-full overflow-x-hidden">
   <!-- Header -->
-  <header class="flex items-center justify-between px-4 py-6">
+  <header class="flex items-center justify-between py-6">
     <div class="flex items-center gap-3">
       @let userData = user();
       @if (userData) {
@@ -19,53 +19,37 @@
     </div>
   </header>
 
-  <!-- Balance Card -->
-  <!-- @if (loading()) {
-          <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
-            <app-spinner className="h-20"></app-spinner>
-          </div>
-        } @else {
-          @if (balance(); as currentBalance) {
-            <app-balance-card 
-              [balance]="currentBalance.incomes - currentBalance.expenses"
-              [percentage]="calculatePercentage(currentBalance)"
-              [currency]="selectedCurrency()"
-              class="mb-6 block"
-            ></app-balance-card>
-          }
-        } -->
+  @let selectedTab = tab();
+  <nav class="mb-8 flex items-center justify-between ">
+    <ul class="flex items-center gap-6 text-sm leading-none text-white">
+      <li class="font-medium">
+        <a href="javascript:void(0);" (click)="changeTab('balance')" [class.opacity-100]="selectedTab === 'balance'"
+          [class.opacity-50]="selectedTab !== 'balance'" class="tab transition-opacity">My Balance </a>
+      </li>
+      <li class="">
+        <a href="javascript:void(0);" (click)="changeTab('income')" [class.opacity-100]="selectedTab === 'income'"
+          [class.opacity-50]="selectedTab !== 'income'" class="tab transition-opacity">Incoming Bills </a>
+      </li>
+      <li class="">
+        <a href="javascript:void(0);" (click)="changeTab('transactions')"
+          [class.opacity-100]="selectedTab === 'transactions'" [class.opacity-50]="selectedTab !== 'transactions'"
+          class="tab transition-opacity">Transactions </a>
+      </li>
+    </ul>
+    <money-selector />
+  </nav>
 
-  <!-- Money Type Selector -->
-  <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-    <h3 class="text-lg font-semibold text-gray-900 mb-3">Currency</h3>
-    <!-- <div class="flex space-x-3">
-            @for (currency of currencies; track currency.value) {
-              <button
-                (click)="selectCurrency(currency.value)"
-                [class]="getCurrencyButtonClass(currency.value)"
-                class="flex items-center space-x-2 px-4 py-2 rounded-lg border transition-colors"
-              >
-                <img [src]="currency.icon" [alt]="currency.label" class="w-5 h-5" />
-                <span class="font-medium">{{ currency.label }}</span>
-              </button>
-            }
-          </div> -->
-  </div>
-
-  <!-- Quick Actions -->
-  <div class="bg-white rounded-xl p-4 shadow-sm">
-    <h3 class="text-lg font-semibold text-gray-900 mb-3">Quick Actions</h3>
-    <div class="grid grid-cols-2 gap-3">
-      <button
-        class="flex items-center justify-center space-x-2 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 hover:bg-green-100 transition-colors">
-        <span class="text-xl">+</span>
-        <span class="font-medium">Add Income</span>
-      </button>
-      <button
-        class="flex items-center justify-center space-x-2 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 hover:bg-red-100 transition-colors">
-        <span class="text-xl">-</span>
-        <span class="font-medium">Add Expense</span>
-      </button>
+  <div class="tabs h-full">
+    <div id="balance" class="transition-all h-full"
+      [class]="tab() === 'balance' ? 'block slide-in' : 'hidden slide-out'">
+      <my-balance [data]="balance()" />
+    </div>
+    <div id="income" class="px-0" [class]="tab() === 'income' ? 'block slide-in' : 'hidden slide-out'">
+      UpcomingBills
+    </div>
+    <div id="transactions" class="px-0" [class]="tab() === 'transactions' ? 'block slide-in' : 'hidden slide-out'">
+      <transactions [transactions]="transactions()" />
     </div>
   </div>
-</div>
+
+</main>
