@@ -1,23 +1,26 @@
 <div class="p-6">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-            @if (user(); as currentUser) {
-            <p class="text-gray-600">Welcome back, {{ currentUser.name }}!</p>
-            }
-        </div>
-        <div class="flex items-center space-x-3">
-            <!-- <app-user-avatar></app-user-avatar> -->
-            <!-- (click)="signOut()" -->
-            <button class="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-                Sign out
-            </button>
-        </div>
+  <!-- Header -->
+  <header class="flex items-center justify-between px-4 py-6">
+    <div class="flex items-center gap-3">
+      @let userData = user();
+      @if (userData) {
+      <user-avatar [user]="userData"></user-avatar>
+      <h1 class="text-xl text-white">Hi, {{userData.name}}!</h1>
+      }
     </div>
+    <div class="flex gap-4">
+      <a href="javascript:void(0);" class="rounded-full border border-white/90 p-2 text-white" (click)="signOut()">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path fill="currentColor"
+            d="M5.616 20q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h6.403v1H5.616q-.231 0-.424.192T5 5.616v12.769q0 .23.192.423t.423.192h6.404v1zm10.846-4.461l-.702-.72l2.319-2.319H9.192v-1h8.887l-2.32-2.32l.702-.718L20 12z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
 
-    <!-- Balance Card -->
-    <!-- @if (loading()) {
+  <!-- Balance Card -->
+  <!-- @if (loading()) {
           <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
             <app-spinner className="h-20"></app-spinner>
           </div>
@@ -32,10 +35,10 @@
           }
         } -->
 
-    <!-- Money Type Selector -->
-    <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">Currency</h3>
-        <!-- <div class="flex space-x-3">
+  <!-- Money Type Selector -->
+  <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-3">Currency</h3>
+    <!-- <div class="flex space-x-3">
             @for (currency of currencies; track currency.value) {
               <button
                 (click)="selectCurrency(currency.value)"
@@ -47,22 +50,22 @@
               </button>
             }
           </div> -->
-    </div>
+  </div>
 
-    <!-- Quick Actions -->
-    <div class="bg-white rounded-xl p-4 shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-900 mb-3">Quick Actions</h3>
-        <div class="grid grid-cols-2 gap-3">
-            <button
-                class="flex items-center justify-center space-x-2 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 hover:bg-green-100 transition-colors">
-                <span class="text-xl">+</span>
-                <span class="font-medium">Add Income</span>
-            </button>
-            <button
-                class="flex items-center justify-center space-x-2 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 hover:bg-red-100 transition-colors">
-                <span class="text-xl">-</span>
-                <span class="font-medium">Add Expense</span>
-            </button>
-        </div>
+  <!-- Quick Actions -->
+  <div class="bg-white rounded-xl p-4 shadow-sm">
+    <h3 class="text-lg font-semibold text-gray-900 mb-3">Quick Actions</h3>
+    <div class="grid grid-cols-2 gap-3">
+      <button
+        class="flex items-center justify-center space-x-2 p-4 bg-green-50 text-green-700 rounded-lg border border-green-200 hover:bg-green-100 transition-colors">
+        <span class="text-xl">+</span>
+        <span class="font-medium">Add Income</span>
+      </button>
+      <button
+        class="flex items-center justify-center space-x-2 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200 hover:bg-red-100 transition-colors">
+        <span class="text-xl">-</span>
+        <span class="font-medium">Add Expense</span>
+      </button>
     </div>
+  </div>
 </div>
