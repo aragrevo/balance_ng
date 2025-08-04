@@ -10,10 +10,11 @@ import { BalanceData } from '@app/models/user.model';
 import { TransactionsComponent } from './sections/transactions/transactions';
 import { Transaction } from '@app/models/transaction.model';
 import { TransactionsService } from '@app/services/transactions.service';
+import { DashboardLayoutComponent } from '@app/layouts/dashboard-layout';
 
 @Component({
   selector: 'dashboard',
-  imports: [UserAvatarComponent, MoneySelectorComponent, MyBalance, TransactionsComponent],
+  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, MyBalance, TransactionsComponent],
   templateUrl: './dashboard.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
