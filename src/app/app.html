@@ -1,5 +1,7 @@
 <router-outlet />
 
-<div id="spinner-overlay" class="absolute inset-0 hidden items-center justify-center bg-black/50">
+@if (isLoading()) {
+<div id="spinner-overlay" class="absolute inset-0 flex items-center justify-center bg-black/50 text-white">
   <spinner class="h-10 w-10"></spinner>
 </div>
+}
