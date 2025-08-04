@@ -1,0 +1,16 @@
+<nav
+    class="fixed right-0 bottom-0 left-0 mx-auto max-w-md rounded-b-2xl border-t border-white/10 bg-[#070417]/90 backdrop-blur-xl">
+    <div class="container mx-auto px-5">
+        <div class="flex justify-between py-5">
+            @for (item of items; track $index) {
+
+            <a [routerLink]="item.href" routerLinkActive="scale-105 text-white"
+                class="navigation-item flex flex-col items-center gap-1 scale-95 text-gray-500">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" [innerHTML]="item.icon | safeHtml">
+                </svg>
+            </a>
+
+            }
+        </div>
+    </div>
+</nav>
