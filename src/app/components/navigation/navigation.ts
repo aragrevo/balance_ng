@@ -31,7 +31,7 @@ export class NavigationComponent {
       icon: `<g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" opacity=".5"><path d="M19.954 4.029H3.227c-.904 0-1.636.932-1.636 2.083v12.497c0 1.15.732 2.082 1.636 2.082h16.727c.904 0 1.637-.932 1.637-2.082V6.112c0-1.15-.733-2.083-1.637-2.083ZM21.59 10h-20"/><circle cx="13.591" cy="16" r="2"/><circle cx="17.591" cy="16" r="2"/></g>`,
       label: "Cards",
       active: false,
-      href: routes.dashboard,
+      href: "/offcanvas-example",
     },
     {
       icon: `<g stroke="currentColor" stroke-width="1.5" opacity=".5"><rect width="7.926" height="7.926" x="8.628" y="2.701" rx="3.963"/><path d="M12.59 13.446c1.93 0 3.644.545 4.856 1.384 1.215.841 1.865 1.927 1.865 3.029a3.415 3.415 0 0 1-3.415 3.415h-7.11A2.915 2.915 0 0 1 5.87 18.36c0-1.393.69-2.599 1.884-3.48 1.202-.889 2.907-1.433 4.836-1.433Z"/></g>`,
