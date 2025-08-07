@@ -75,10 +75,14 @@ export class DashboardComponent {
 
   constructor() {
     afterNextRender(() => {
-      this.loadBalance()
-      this.loadTransactions()
-      this.loadIncomes()
+      this.loadData();
     });
+  }
+
+  private loadData() {
+    this.loadBalance();
+    this.loadTransactions();
+    this.loadIncomes();
   }
 
   private loadBalance() {
@@ -122,6 +126,10 @@ export class DashboardComponent {
 
   changeTab(id: string) {
     this.tab.set(id);
+  }
+
+  refreshData() {
+    this.loadData();
   }
 }
 
