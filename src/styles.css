@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@fontsource-variable/plus-jakarta-sans/wght.css";
 
 @theme {
   --color-primary: #03034a;
