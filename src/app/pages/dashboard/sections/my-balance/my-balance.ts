@@ -5,10 +5,12 @@ import { BalanceData } from '@app/models/user.model';
 import { FinancialHealthComponent } from './components/financial-health/financial-health.component';
 import { Transaction } from '@app/models/transaction.model';
 import { MoneyTypes } from '@app/models/money-types.enum';
+import { PayFormComponent } from "./components/pay-form/pay-form";
+import { DrawerComponent } from '@app/components/drawer/drawer';
 
 @Component({
   selector: 'my-balance',
-  imports: [DecimalPipe, CurrencyPipe, ActionButtonDirective, FinancialHealthComponent],
+  imports: [DecimalPipe, CurrencyPipe, ActionButtonDirective, FinancialHealthComponent, PayFormComponent, DrawerComponent],
   templateUrl: './my-balance.html',
 })
 export class MyBalance {
