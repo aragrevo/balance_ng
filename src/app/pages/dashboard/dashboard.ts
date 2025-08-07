@@ -24,30 +24,37 @@ import { IncomesService } from '@app/services/incomes.service';
     class: 'h-full w-full',
   },
   styles: `
-    .slide-in {
-      animation: slide-in 300ms ease-in;
+    .fade-in {
+      animation: fade-in 300ms ease-in;
     }
 
-    @keyframes slide-in {
+    @keyframes fade-in {
       from {
-        transform: translateX(120%);
+        opacity: 0;
       }
       to {
-        transform: translateX(0);
+        opacity: 1;
       }
     }
 
-    .slide-out {
-      animation: slide-out 300ms ease-out;
+    li {
+      position: relative;
     }
 
-    @keyframes slide-out {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-120%);
-      }
+    li::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-quaternary);
+      transform: scaleX(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    li.active::after {
+      transform: scaleX(0);
     }
   `,
 })

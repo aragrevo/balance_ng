@@ -21,19 +21,21 @@
 
   @let selectedTab = tab();
   <nav
-    class="mb-8 flex items-center justify-between sticky top-0  backdrop-blur-xs bg-[#000033]/20 px-6 py-1 shadow-2xl border-b-1">
+    class="mb-8 flex items-center justify-between sticky top-0  backdrop-blur-xs bg-[#000033]/20 px-6 pt-1 shadow-2xl border-b-1">
 
-
-    <ul class="flex items-center gap-6 text-sm leading-none text-white">
-      <li class="font-medium">
+    <ul class="flex items-center gap-2 text-sm leading-none text-quaternary">
+      <li class="font-medium p-2" [class.active]="selectedTab !== 'balance'">
         <a href="javascript:void(0);" (click)="changeTab('balance')" [class.opacity-100]="selectedTab === 'balance'"
           [class.opacity-50]="selectedTab !== 'balance'" class="tab transition-opacity">My Balance </a>
       </li>
-      <li class="">
+      <li class="font-medium p-2" [class.active]="selectedTab !== 'income'">
+
+
         <a href="javascript:void(0);" (click)="changeTab('income')" [class.opacity-100]="selectedTab === 'income'"
           [class.opacity-50]="selectedTab !== 'income'" class="tab transition-opacity">Incoming Bills </a>
       </li>
-      <li class="">
+      <li class="font-medium p-2" [class.active]="selectedTab !== 'transactions'">
+
         <a href="javascript:void(0);" (click)="changeTab('transactions')"
           [class.opacity-100]="selectedTab === 'transactions'" [class.opacity-50]="selectedTab !== 'transactions'"
           class="tab transition-opacity">Transactions </a>
@@ -42,17 +44,16 @@
     <money-selector />
   </nav>
 
-  <div class="tabs  px-6">
-    <div id="balance" class="transition-all h-full"
-      [class]="tab() === 'balance' ? 'block slide-in' : 'hidden slide-out'">
+  <div class="tabs px-6 ">
+    <div id="balance" class="transition-all h-full" [class]="tab() === 'balance' ? 'block fade-in' : 'hidden'">
       <my-balance [data]="balance()" [transactions]="transactions()" [incomes]="incomes()" />
 
 
     </div>
-    <div id="income" class="px-0" [class]="tab() === 'income' ? 'block slide-in' : 'hidden slide-out'">
+    <div id="income" class="px-0" [class]="tab() === 'income' ? 'block fade-in' : 'hidden'">
       UpcomingBills
     </div>
-    <div id="transactions" class="px-0" [class]="tab() === 'transactions' ? 'block slide-in' : 'hidden slide-out'">
+    <div id="transactions" class="px-0" [class]="tab() === 'transactions' ? 'block fade-in' : 'hidden'">
       @defer {
       <transactions [transactions]="transactions()" />
       } @placeholder {
