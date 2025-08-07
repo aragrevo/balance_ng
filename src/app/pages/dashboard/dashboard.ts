@@ -11,10 +11,13 @@ import { TransactionsComponent } from './sections/transactions/transactions';
 import { Transaction } from '@app/models/transaction.model';
 import { TransactionsService } from '@app/services/transactions.service';
 import { DashboardLayoutComponent } from '@app/layouts/dashboard-layout';
+import { FallbackComponent } from '@app/components/fallback/fallback';
+import { MoneyTypes } from '@app/models/money-types.enum';
+import { IncomesService } from '@app/services/incomes.service';
 
 @Component({
   selector: 'dashboard',
-  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, MyBalance, TransactionsComponent],
+  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, FallbackComponent, MyBalance, TransactionsComponent],
   templateUrl: './dashboard.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -49,20 +52,25 @@ import { DashboardLayoutComponent } from '@app/layouts/dashboard-layout';
   `,
 })
 export class DashboardComponent {
+  protected readonly MoneyTypes = MoneyTypes;
   private readonly authService = inject(AuthService);
   private readonly balanceService = inject(BalanceService);
   private readonly transactionsService = inject(TransactionsService);
+  private readonly incomesService = inject(IncomesService);
+
   user = toSignal(this.authService.user$, {
     requireSync: true,
   });
   tab = signal('balance');
-  balance = signal<BalanceData | null>(null);
+  balance = signal<Record<MoneyTypes, BalanceData> | null>(null);
   transactions = signal<Transaction[]>([]);
+  incomes = signal<Transaction[]>([]);
 
   constructor() {
     afterNextRender(() => {
       this.loadBalance()
       this.loadTransactions()
+      this.loadIncomes()
     });
   }
 
@@ -84,6 +92,17 @@ export class DashboardComponent {
     this.transactionsService.getTransactions(startDate, endDate)
       .then(res => {
         this.transactions.set(res);
+      }).catch(err => {
+        console.log(err);
+      })
+
+  }
+  private loadIncomes() {
+    const startDate = getStartOfMonth().toISOString();
+    const endDate = getEndOfMonth().toISOString();
+    this.incomesService.getIncomes(startDate, endDate)
+      .then(res => {
+        this.incomes.set(res);
       }).catch(err => {
         console.log(err);
       })

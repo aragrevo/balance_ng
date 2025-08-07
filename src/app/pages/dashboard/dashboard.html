@@ -42,13 +42,19 @@
   <div class="tabs h-full">
     <div id="balance" class="transition-all h-full"
       [class]="tab() === 'balance' ? 'block slide-in' : 'hidden slide-out'">
-      <my-balance [data]="balance()" />
+      <my-balance [data]="balance()" [transactions]="transactions()" [incomes]="incomes()" />
+
+
     </div>
     <div id="income" class="px-0" [class]="tab() === 'income' ? 'block slide-in' : 'hidden slide-out'">
       UpcomingBills
     </div>
     <div id="transactions" class="px-0" [class]="tab() === 'transactions' ? 'block slide-in' : 'hidden slide-out'">
+      @defer {
       <transactions [transactions]="transactions()" />
+      } @placeholder {
+      <fallback />
+      }
     </div>
   </div>
 
