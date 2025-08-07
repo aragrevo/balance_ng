@@ -1,6 +1,6 @@
 <dashboard-layout>
   <!-- Header -->
-  <header class="flex items-center justify-between py-6">
+  <header class="flex items-center justify-between p-6 ">
     <div class="flex items-center gap-3">
       @let userData = user();
       @if (userData) {
@@ -20,7 +20,10 @@
   </header>
 
   @let selectedTab = tab();
-  <nav class="mb-8 flex items-center justify-between ">
+  <nav
+    class="mb-8 flex items-center justify-between sticky top-0  backdrop-blur-xs bg-[#000033]/20 px-6 py-1 shadow-2xl border-b-1">
+
+
     <ul class="flex items-center gap-6 text-sm leading-none text-white">
       <li class="font-medium">
         <a href="javascript:void(0);" (click)="changeTab('balance')" [class.opacity-100]="selectedTab === 'balance'"
@@ -39,7 +42,7 @@
     <money-selector />
   </nav>
 
-  <div class="tabs h-full">
+  <div class="tabs  px-6">
     <div id="balance" class="transition-all h-full"
       [class]="tab() === 'balance' ? 'block slide-in' : 'hidden slide-out'">
       <my-balance [data]="balance()" [transactions]="transactions()" [incomes]="incomes()" />

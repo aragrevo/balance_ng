@@ -7,7 +7,7 @@ import { NavigationComponent } from '@app/components/navigation/navigation';
   standalone: true,
   template: `
 
-      <main class="pb-20 px-6 pt-6 h-full overflow-x-hidden">
+      <main class="pb-20 overflow-x-hidden h-dvh scroll-smooth scrollbar-hide">
         <ng-content></ng-content>
       </main>
       <navigation />
