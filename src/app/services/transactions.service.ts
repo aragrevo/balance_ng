@@ -31,5 +31,22 @@ export class TransactionsService {
     return data;
   }
 
+  async saveTransaction(transaction: Transaction) {
+    const user = this.authSvc.user$.value
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+    const { data, error } = await this.supabaseSvc.supabase.from("expenses").insert({
+      ...transaction,
+      money: MoneyTypes.EUR,
+      userId: user.id,
+      date: new Date().toISOString(),
+    }).select()
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+
 
 }
