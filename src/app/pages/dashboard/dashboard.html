@@ -47,11 +47,9 @@
   <div class="tabs px-6 ">
     <div id="balance" class="transition-all h-full" [class]="tab() === 'balance' ? 'block fade-in' : 'hidden'">
       <my-balance [data]="balance()" [transactions]="transactions()" [incomes]="incomes()" (refresh)="refreshData()" />
-
-
     </div>
     <div id="income" class="px-0" [class]="tab() === 'income' ? 'block fade-in' : 'hidden'">
-      UpcomingBills
+      <incoming-bills [incomes]="incomes()" />
     </div>
     <div id="transactions" class="px-0" [class]="tab() === 'transactions' ? 'block fade-in' : 'hidden'">
       @defer {

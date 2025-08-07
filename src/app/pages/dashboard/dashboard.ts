@@ -14,10 +14,11 @@ import { DashboardLayoutComponent } from '@app/layouts/dashboard-layout';
 import { FallbackComponent } from '@app/components/fallback/fallback';
 import { MoneyTypes } from '@app/models/money-types.enum';
 import { IncomesService } from '@app/services/incomes.service';
+import { IncomingBillsComponent } from './sections/incoming-bills/incoming-bills';
 
 @Component({
   selector: 'dashboard',
-  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, FallbackComponent, MyBalance, TransactionsComponent],
+  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, FallbackComponent, MyBalance, TransactionsComponent, IncomingBillsComponent],
   templateUrl: './dashboard.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

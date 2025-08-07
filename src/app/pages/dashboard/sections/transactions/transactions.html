@@ -21,8 +21,8 @@
                         <p class="text-sm text-gray-400 capitalize">{{transaction.observation ?
                             transaction.observation.slice(2)
                             : transaction.description}}</p>
-                        <h3 class="text-xl font-medium text-white">
-                            {{transaction.date | date: 'short'}}
+                        <h3 class="text-normal font-medium text-white">
+                            {{transaction.date | date: 'EEEE, dd MMM y'}}
                         </h3>
                     </div>
                 </div>
