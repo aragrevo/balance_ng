@@ -29,4 +29,20 @@ export class AdminService {
     return data;
   }
 
+  async getIncomeCategories(): Promise<Category[]> {
+    const user = this.authSvc.user$.value
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+    const { data, error } = await this.supabaseSvc.supabase.from("categories").select()
+      .filter("type", "eq", "revenue")
+      .order("name", { ascending: true });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  }
+
 }
