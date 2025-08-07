@@ -7,10 +7,11 @@ import { Transaction } from '@app/models/transaction.model';
 import { MoneyTypes } from '@app/models/money-types.enum';
 import { PayFormComponent } from "./components/pay-form/pay-form";
 import { OffcanvasComponent } from '@app/components/offcanvas/offcanvas';
+import { ReceiveFormComponent } from './components/receive-form/receive-form';
 
 @Component({
   selector: 'my-balance',
-  imports: [DecimalPipe, CurrencyPipe, ActionButtonDirective, FinancialHealthComponent, PayFormComponent, OffcanvasComponent],
+  imports: [DecimalPipe, CurrencyPipe, ActionButtonDirective, FinancialHealthComponent, PayFormComponent, OffcanvasComponent, ReceiveFormComponent],
   templateUrl: './my-balance.html',
 })
 export class MyBalance {
@@ -27,12 +28,11 @@ export class MyBalance {
   protected readonly percentage = computed(() => !this.eurBalance() ? 0 : (this.balance() / this.eurBalance()!.incomes) * 100);
 
   isOffcanvasPayOpen = signal(false);
+  isOffcanvasReceiveOpen = signal(false);
 
 
   transactionSaved() {
     this.isOffcanvasPayOpen.set(false);
     this.refresh.emit();
-
-
   }
 }
