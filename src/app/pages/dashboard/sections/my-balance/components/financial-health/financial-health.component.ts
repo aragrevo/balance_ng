@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { MoneyTypes } from '@app/models/money-types.enum';
 import { Transaction } from '@app/models/transaction.model';
@@ -5,7 +6,7 @@ import { BalanceData } from '@app/models/user.model';
 
 @Component({
   selector: 'financial-health',
-  imports: [],
+  imports: [DecimalPipe],
   templateUrl: './financial-health.component.html',
   styles: `
     :host {

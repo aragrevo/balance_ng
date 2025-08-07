@@ -15,11 +15,11 @@
       <div class="flex items-center justify-between gap-2">
         <div class="flex flex-col items-center gap-2">
           <span class="text-sm text-white/50">Incomes</span>
-          <span class="font-medium">{{eurBalance()?.incomes}}</span>
+          <span class="font-medium">{{eurBalance()?.incomes | number:'1.2-2'}}</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <span class="text-sm text-white/50">Expenses</span>
-          <span class="font-medium">{{eurBalance()?.expenses}}</span>
+          <span class="font-medium">{{eurBalance()?.expenses | number:'1.2-2'}}</span>
         </div>
       </div>
     </article>
@@ -30,11 +30,11 @@
       <div class="flex items-center justify-between gap-2">
         <div class="flex flex-col items-center gap-2">
           <span class="text-sm text-white/50">Incomes</span>
-          <span class="font-medium">{{copBalance()?.incomes}}</span>
+          <span class="font-medium">{{copBalance()?.incomes }}</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <span class="text-sm text-white/50">Expenses</span>
-          <span class="font-medium">{{copBalance()?.expenses}}</span>
+          <span class="font-medium">{{copBalance()?.expenses }}</span>
         </div>
       </div>
     </article>
