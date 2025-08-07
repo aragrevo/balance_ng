@@ -5,12 +5,12 @@ import {
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { UserAvatarComponent } from '../user-avatar/user-avatar';
 
 @Component({
   selector: 'offcanvas',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [UserAvatarComponent],
   template: `
     <!-- Backdrop -->
     <div
@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
 
     <!-- Offcanvas Panel -->
     <div
-      class="fixed z-50 border-tertiary bg-tertiary shadow-lg transition-transform duration-300 ease-in-out flex flex-col rounded-t-2xl border p-4"
+      class="fixed z-50 border-tertiary bg-tertiary shadow-lg transition-transform duration-300 ease-in-out flex flex-col rounded-t-2xl border p-6"
       [class]="getPositionClasses()"
       [class.invisible]="!isOpen()"
       [class.visible]="isOpen()"
@@ -49,10 +49,11 @@ import { CommonModule } from '@angular/common';
             ></path>
           </svg>
         </button>
+        <user-avatar />
       </header>
 
       <!-- Body -->
-      <div class="flex-1 p-4 overflow-y-auto">
+      <div class="flex-1 py-4 overflow-y-auto">
         <ng-content></ng-content>
       </div>
     </div>

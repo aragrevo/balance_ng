@@ -4,7 +4,7 @@
     <div class="flex items-center gap-3">
       @let userData = user();
       @if (userData) {
-      <user-avatar [user]="userData"></user-avatar>
+      <user-avatar />
       <h1 class="text-xl text-white">Hi, {{userData.name}}!</h1>
       }
     </div>
