@@ -1,0 +1,66 @@
+<section class="text-white">
+  <header class="mb-4 flex items-center justify-between">
+    <h3 class="text-2xl font-medium">Financial health</h3>
+    <div class="flex items-center gap-2">
+      <span class="text-gray-400">Latest 30 days</span>
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7 14l5-5 5 5H7z"></path>
+      </svg>
+    </div>
+  </header>
+  <div class="grid grid-cols-2 gap-3">
+    <article
+      class="flex flex-col justify-center overflow-hidden rounded-md border border-white/10 bg-gradient-to-br from-[#151521] via-[#000033] to-transparent p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-xs">
+      <h6 class="text-lg font-bold">EUR</h6>
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-sm text-white/50">Incomes</span>
+          <span class="font-medium">{{eurBalance()?.incomes}}</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-sm text-white/50">Expenses</span>
+          <span class="font-medium">{{eurBalance()?.expenses}}</span>
+        </div>
+      </div>
+    </article>
+
+    <article
+      class="flex flex-col justify-center overflow-hidden rounded-md border border-white/10 bg-gradient-to-br from-[#010101] via-[#090909] to-transparent p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-3xl">
+      <h6 class="text-lg font-bold">COP</h6>
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-sm text-white/50">Incomes</span>
+          <span class="font-medium">{{copBalance()?.incomes}}</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-sm text-white/50">Expenses</span>
+          <span class="font-medium">{{copBalance()?.expenses}}</span>
+        </div>
+      </div>
+    </article>
+
+    <article
+      class="col-span-2 flex items-end justify-between gap-6 overflow-hidden rounded-md border border-white/10 bg-transparent bg-gradient-to-br p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-3xl">
+      @for (amount of amounts(); track amount.type) {
+      @let type = amount.type;
+      @let values = amount.values;
+      <div class="flex flex-1 flex-col items-center gap-2">
+        <div class="flex w-full flex-col gap-1">
+          @for (value of values; track $index) {
+          <div class="group relative h-3.5 w-full rounded-sm bg-opacity-20" [class.bg-indigo-500-20]="value < 35"
+            [class.bg-red-500-20]="value > 35">
+            <span
+              class="pointer-events-none absolute bottom-full left-1/2 z-10 -translate-x-1/2 rounded-md bg-gray-800 px-2 py-0.5 text-xs text-white opacity-0 shadow transition-opacity duration-300 select-none group-hover:opacity-100 group-active:opacity-100">
+              {{value}}
+            </span>
+          </div>
+          }
+        </div>
+        <span class="pointer-events-none text-sm text-gray-400 select-none">
+          {{type}}
+        </span>
+      </div>
+      }
+    </article>
+  </div>
+</section>
