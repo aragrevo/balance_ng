@@ -2,15 +2,14 @@ import {
   Component,
   input,
   output,
-  signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { UserAvatarComponent } from '../user-avatar/user-avatar';
+import { MoneySelectorComponent } from '@app/components/money-selector/money-selector';
 
 @Component({
   selector: 'offcanvas',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UserAvatarComponent],
+  imports: [MoneySelectorComponent],
   template: `
     <!-- Backdrop -->
     <div
@@ -49,7 +48,7 @@ import { UserAvatarComponent } from '../user-avatar/user-avatar';
             ></path>
           </svg>
         </button>
-        <user-avatar />
+        <money-selector />
       </header>
 
       <!-- Body -->

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { MoneyTypes } from '@app/models/money-types.enum';
+import { AppStateService } from '@app/services/app-state.service';
 
 @Component({
   selector: 'money-selector',
@@ -13,7 +14,8 @@ import { MoneyTypes } from '@app/models/money-types.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneySelectorComponent {
-  protected money = signal(MoneyTypes.EUR);
+  private readonly appStateService = inject(AppStateService);
+  protected money = computed(() => this.appStateService.getMoney());
   protected isOpen = signal(false);
   urlsMoney = [
     {
@@ -31,7 +33,7 @@ export class MoneySelectorComponent {
   }
 
   onSelectMoney(money: MoneyTypes) {
-    this.money.set(money);
+    this.appStateService.setMoney(money);
     this.toggleOpen();
   }
 }
