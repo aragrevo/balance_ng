@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "dev": "node -r dotenv/config mynode.js && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -29,6 +29,7 @@
     "@fontsource-variable/plus-jakarta-sans": "5.2.6",
     "@supabase/supabase-js": "2.53.0",
     "@tailwindcss/postcss": "4.1.11",
+    "dotenv": "17.2.1",
     "postcss": "8.5.6",
     "rxjs": "~7.8.0",
     "tailwindcss": "4.1.11",
