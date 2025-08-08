@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { OffcanvasComponent } from '@app/components/offcanvas';
@@ -9,7 +10,7 @@ import { TransactionsService } from '@app/services/transactions.service';
 
 @Component({
   selector: 'pay-form',
-  imports: [FormsModule, OffcanvasComponent],
+  imports: [FormsModule, OffcanvasComponent, JsonPipe],
   templateUrl: './pay-form.html',
   styles: `
     :host {
