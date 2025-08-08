@@ -1,15 +1,16 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ActionButtonDirective } from '@app/directives/action-button.directive';
+import { OffcanvasComponent } from '@app/components/offcanvas';
 import { Category } from '@app/models/category.model';
+import { MoneyTypes } from '@app/models/money-types.enum';
 import { Transaction } from '@app/models/transaction.model';
 import { AdminService } from '@app/services/admin.service';
-import { IncomesService } from '@app/services/incomes.service';
+import { TransactionsService } from '@app/services/transactions.service';
 
 @Component({
-  selector: 'receive-form',
-  imports: [FormsModule, ActionButtonDirective],
-  templateUrl: './receive-form.html',
+  selector: 'pay-form',
+  imports: [FormsModule, OffcanvasComponent],
+  templateUrl: './pay-form.html',
   styles: `
     :host {
       display: block;
@@ -47,24 +48,25 @@ import { IncomesService } from '@app/services/incomes.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReceiveFormComponent {
-  private readonly receiveForm = viewChild<NgForm>('receiveForm');
-  reset = input(false);
-  saved = output<boolean>();
-  saving = signal(false);
+export class PayFormComponent {
   protected readonly categories = signal<Category[]>([]);
-
   private readonly adminSvc = inject(AdminService);
-  private readonly incomesSvc = inject(IncomesService);
+  private readonly transactionsSvc = inject(TransactionsService);
 
-  protected receiveTransaction = model<Partial<Transaction>>({
+  private readonly payForm = viewChild<NgForm>('payForm');
+  saved = output<boolean>();
+  protected saving = signal(false);
+  isOffcanvasPayOpen = signal(false);
+
+
+  protected payTransaction = model<Partial<Transaction>>({
     // description: '-1',
     observation: ''
   })
 
   constructor() {
     afterNextRender(() => {
-      this.adminSvc.getIncomeCategories().then(categories => {
+      this.adminSvc.getExpenseCategories().then(categories => {
         this.categories.set(categories);
       }).catch(error => {
         console.error(error);
@@ -72,15 +74,16 @@ export class ReceiveFormComponent {
     })
 
     effect(() => {
-      if (this.reset()) {
-        this.receiveForm()?.resetForm();
+      if (this.isOffcanvasPayOpen()) {
+        this.payForm()?.resetForm();
       }
     })
   }
 
   private saveTransaction(transaction: Transaction) {
-    this.incomesSvc.saveIncome(transaction).then(data => {
+    this.transactionsSvc.saveTransaction(transaction).then(data => {
       this.saved.emit(true);
+      this.isOffcanvasPayOpen.set(false);
     }).catch(error => {
       console.error(error);
     }).finally(() => {
@@ -89,7 +92,7 @@ export class ReceiveFormComponent {
   }
 
   onSubmit() {
-    const form = this.receiveForm()?.form!;
+    const form = this.payForm()?.form!;
     if (form.valid) {
       this.saving.set(true);
       this.saveTransaction(form.value);

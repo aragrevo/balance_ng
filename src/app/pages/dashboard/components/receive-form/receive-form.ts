@@ -1,15 +1,16 @@
-import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal, viewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, inject, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { OffcanvasComponent } from '@app/components/offcanvas';
+import { ActionButtonDirective } from '@app/directives/action-button.directive';
 import { Category } from '@app/models/category.model';
-import { MoneyTypes } from '@app/models/money-types.enum';
 import { Transaction } from '@app/models/transaction.model';
 import { AdminService } from '@app/services/admin.service';
-import { TransactionsService } from '@app/services/transactions.service';
+import { IncomesService } from '@app/services/incomes.service';
 
 @Component({
-  selector: 'pay-form',
-  imports: [FormsModule],
-  templateUrl: './pay-form.html',
+  selector: 'receive-form',
+  imports: [FormsModule, ActionButtonDirective, OffcanvasComponent],
+  templateUrl: './receive-form.html',
   styles: `
     :host {
       display: block;
@@ -47,40 +48,35 @@ import { TransactionsService } from '@app/services/transactions.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PayFormComponent {
-  protected readonly categories = signal<Category[]>([]);
-  private readonly adminSvc = inject(AdminService);
-  private readonly transactionsSvc = inject(TransactionsService);
-
-  private readonly payForm = viewChild<NgForm>('payForm');
-  reset = input(false);
+export class ReceiveFormComponent {
+  private readonly receiveForm = viewChild<NgForm>('receiveForm');
   saved = output<boolean>();
-  saving = signal(false);
+  protected saving = signal(false);
+  isOffcanvasReceiveOpen = signal(false);
+  protected readonly categories = signal<Category[]>([]);
 
-  protected payTransaction = model<Partial<Transaction>>({
+  private readonly adminSvc = inject(AdminService);
+  private readonly incomesSvc = inject(IncomesService);
+
+  protected receiveTransaction = model<Partial<Transaction>>({
     // description: '-1',
     observation: ''
   })
 
   constructor() {
     afterNextRender(() => {
-      this.adminSvc.getExpenseCategories().then(categories => {
+      this.adminSvc.getIncomeCategories().then(categories => {
         this.categories.set(categories);
       }).catch(error => {
         console.error(error);
       })
     })
-
-    effect(() => {
-      if (this.reset()) {
-        this.payForm()?.resetForm();
-      }
-    })
   }
 
   private saveTransaction(transaction: Transaction) {
-    this.transactionsSvc.saveTransaction(transaction).then(data => {
+    this.incomesSvc.saveIncome(transaction).then(data => {
       this.saved.emit(true);
+      this.isOffcanvasReceiveOpen.set(false);
     }).catch(error => {
       console.error(error);
     }).finally(() => {
@@ -89,7 +85,7 @@ export class PayFormComponent {
   }
 
   onSubmit() {
-    const form = this.payForm()?.form!;
+    const form = this.receiveForm()?.form!;
     if (form.valid) {
       this.saving.set(true);
       this.saveTransaction(form.value);
