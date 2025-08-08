@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { OffcanvasComponent } from '@app/components/offcanvas';
@@ -10,11 +9,14 @@ import { TransactionsService } from '@app/services/transactions.service';
 
 @Component({
   selector: 'pay-form',
-  imports: [FormsModule, OffcanvasComponent, JsonPipe],
+  imports: [FormsModule, OffcanvasComponent],
   templateUrl: './pay-form.html',
   styles: `
     :host {
       display: block;
+    }
+    .active {
+      background-color: color-mix(in oklab, #fff 15%, transparent);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +31,9 @@ export class PayFormComponent {
   protected saving = signal(false);
   isOffcanvasPayOpen = signal(false);
 
+  protected open = signal(false);
+  protected selectedCategory = signal<Category | null>(null);
+
 
   protected payTransaction = model<Partial<Transaction>>({
     // description: '-1',
@@ -39,7 +44,6 @@ export class PayFormComponent {
     afterNextRender(() => {
       this.adminSvc.getExpenseCategories().then(categories => {
         this.categories.set(categories);
-        alert('Categorias obtenidas');
       }).catch(error => {
         console.error(error);
         alert('Error al obtener las categorias' + error);
@@ -49,11 +53,13 @@ export class PayFormComponent {
     effect(() => {
       if (this.isOffcanvasPayOpen()) {
         this.payForm()?.resetForm();
+        this.selectedCategory.set(null);
       }
     })
   }
 
   private saveTransaction(transaction: Transaction) {
+    transaction.description = this.selectedCategory()!.id;
     this.transactionsSvc.saveTransaction(transaction).then(data => {
       this.saved.emit(true);
       this.isOffcanvasPayOpen.set(false);
@@ -66,9 +72,19 @@ export class PayFormComponent {
 
   onSubmit() {
     const form = this.payForm()?.form!;
+    if (!this.selectedCategory()) {
+      alert('Selecciona una categoria');
+      return;
+    }
     if (form.valid) {
       this.saving.set(true);
       this.saveTransaction(form.value);
     }
+  }
+
+  onSelectCategory(category: Category) {
+    this.selectedCategory.set(category);
+    this.open.set(false);
+
   }
 }
