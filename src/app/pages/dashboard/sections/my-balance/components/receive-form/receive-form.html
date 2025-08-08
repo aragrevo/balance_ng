@@ -20,12 +20,15 @@
                 }
             </div>
         </select>
+        <input id="pay-form-observation" type="text" name="observation" placeholder="Observation"
+            [(ngModel)]="receiveTransaction().observation"
+            class="rounded-full border border-white/80 bg-transparent px-4 py-2 text-xl text-white placeholder:text-white/30 focus:outline-none" />
         <input type="number" name="cost" step="any"
             class="mt-2 rounded-lg border-0 p-2 text-center text-4xl text-white placeholder:text-white/30 focus:outline-none"
             placeholder="500.00" [(ngModel)]="receiveTransaction().cost" required />
     </div>
-    <button type="submit" [disabled]="saving()"
-        class="group  bg-quaternary text-tertiary disabled:gray mt-8 flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-colors hover:cursor-pointer hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50 active:scale-[99%] ">
+    <button actionButton type="submit" [disabled]="saving()" class="group  bg-quaternary text-tertiary  mt-8 "
+        size="medium" color="tertiary">
         <span class="hidden items-center gap-2 group-disabled:flex">
             <div role="status">
                 <svg aria-hidden="true" class="inline  animate-spin fill-blue-600 text-gray-200 dark:text-gray-600 "

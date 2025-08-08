@@ -1,5 +1,6 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ActionButtonDirective } from '@app/directives/action-button.directive';
 import { Category } from '@app/models/category.model';
 import { Transaction } from '@app/models/transaction.model';
 import { AdminService } from '@app/services/admin.service';
@@ -7,7 +8,7 @@ import { IncomesService } from '@app/services/incomes.service';
 
 @Component({
   selector: 'receive-form',
-  imports: [FormsModule],
+  imports: [FormsModule, ActionButtonDirective],
   templateUrl: './receive-form.html',
   styles: `
     :host {
