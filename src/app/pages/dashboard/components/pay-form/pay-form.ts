@@ -16,36 +16,6 @@ import { TransactionsService } from '@app/services/transactions.service';
     :host {
       display: block;
     }
-    .custom-select {
-    &,
-    &::picker(select) {
-      appearance: base-select;
-    }
-  }
-
-  .custom-select {
-    &::picker(select) {
-      background-color: transparent;
-      border: none;
-      opacity: 0;
-      transition: all 0.4s allow-discrete;
-      max-width: 200px;
-    }
-    &::picker(select):popover-open {
-      opacity: 1;
-    }
-    @starting-style {
-      &::picker(select):popover-open {
-        opacity: 0;
-      }
-    }
-    &::picker(select) {
-      top: calc(anchor(bottom) + 5px);
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 200px;
-    }
-  }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
