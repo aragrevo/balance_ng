@@ -3,6 +3,7 @@ import { Transaction } from '@app/models/transaction.model';
 import { AuthService } from './auth.service';
 import { SupabaseService } from './supabase.service';
 import { MoneyTypes } from '@app/models/money-types.enum';
+import { AppStateService } from './app-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class IncomesService {
 
   private readonly supabaseSvc = inject(SupabaseService)
   private readonly authSvc = inject(AuthService)
+  private readonly appStateService = inject(AppStateService);
 
 
   async getIncomes(startDate: string, endDate: string): Promise<Transaction[]> {
@@ -36,7 +38,7 @@ export class IncomesService {
     }
     const { data, error } = await this.supabaseSvc.supabase.from("revenues").insert({
       ...transaction,
-      money: MoneyTypes.EUR,
+      money: this.appStateService.getMoney(),
       userId: user.id,
       date: new Date().toISOString(),
     }).select()
