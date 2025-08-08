@@ -1,0 +1,28 @@
+<div class="flex w-full flex-col items-center justify-center">
+    <div class="relative inline-block">
+        <svg width="100%" height="auto" preserveAspectRatio="xMidYMid meet" [attr.viewBox]="`0 0 ${size} ${size}`"
+            class="">
+            @for (item of paths().slice(1); track $index) {
+            <path [attr.d]="item.path" [attr.fill]="item.color" />
+            }
+            <path [attr.d]="paths()[0].path" [attr.fill]="paths()[0].color"></path>
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-2xl font-bold text-white">{{percentageToShow()}}</span>
+        </div>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between gap-8">
+        @for (item of data(); track item.label) {
+        <div class="flex items-start gap-3">
+            <span class="mt-2 h-1.5 w-8 rounded-full" [style.backgroundColor]="item.color"></span>
+            <div class="flex flex-col items-start">
+                <span class="text-xs text-gray-400">{{item.label}}</span>
+                <span class="text-lg font-semibold text-white">
+                    {{item.value.toFixed(2)}}
+                </span>
+            </div>
+        </div>
+        }
+    </div>
+</div>
