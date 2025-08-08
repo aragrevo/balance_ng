@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 
 @Component({
   selector: 'donut-chart',
@@ -24,7 +24,8 @@ export class DonutChartComponent {
   private currentAngle = -Math.PI / 2; // Comenzamos desde arriba (-90 grados)
 
   protected readonly total = computed(() => this.data().reduce((acc, cur) => acc + cur.value, 0))
-  protected readonly paths = computed(() => this.data().map((item, idx) => this.buildPaths(item, idx)))
+  protected paths = signal<{ path: string; color: string; }[]>([])
+
 
   // Calcular el porcentaje más grande para mostrarlo en el centro
   protected readonly maxPercentage = computed(() => Math.max(...this.data().map((item) => item.value / this.total())));
@@ -32,6 +33,14 @@ export class DonutChartComponent {
     style: "percent",
     maximumFractionDigits: 0,
   }).format(this.maxPercentage()));
+
+  constructor() {
+    effect(() => {
+      if (this.total() > 0) {
+        this.paths.set(this.data().map((item, idx) => this.buildPaths(item, idx)))
+      }
+    })
+  }
 
   private buildPaths(item: { label: string; value: number; color: string }, idx: number) {
     const percentage = item.value / this.total();
@@ -80,6 +89,7 @@ export class DonutChartComponent {
     };
 
     this.currentAngle += angle;
+
     return result;
   }
 }

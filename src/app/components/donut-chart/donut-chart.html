@@ -1,5 +1,6 @@
 <div class="flex w-full flex-col items-center justify-center">
     <div class="relative inline-block">
+        @if (paths().length > 0) {
         <svg width="100%" height="auto" preserveAspectRatio="xMidYMid meet" [attr.viewBox]="`0 0 ${size} ${size}`"
             class="">
             @for (item of paths().slice(1); track $index) {
@@ -10,6 +11,7 @@
         <div class="absolute inset-0 flex items-center justify-center">
             <span class="text-2xl font-bold text-white">{{percentageToShow()}}</span>
         </div>
+        }
     </div>
 
     <div class="mt-4 flex items-center justify-between gap-8">
