@@ -1,10 +1,17 @@
 <section class="h-full overflow-hidden">
     <div class="mb-6 flex items-center justify-between">
         <h2 class="mb-3 text-4xl font-medium text-white">Transactions</h2>
+        <button (click)="payForm.isOffcanvasPayOpen.set(true)"
+            class="bg-secondary hover:bg-secondary/80 flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none">
+                <path stroke="#151521" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M8.5 1v15M1 8.5h15"></path>
+            </svg>
+        </button>
     </div>
 
     <div class="scrollbar-hide space-y-4 overflow-y-auto pb-14">
-        @for (transaction of transactions(); track transaction.id) {
+        @for (transaction of computedTransactions(); track transaction.id) {
         <div class="rounded-2xl bg-white/5 p-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -27,7 +34,9 @@
                     </div>
                 </div>
                 <span class="font-medium text-white">
-                    {{transaction.cost | currency: 'EUR': 'symbol'}}
+                    {{transaction.cost | currency:transaction.money.toUpperCase(): 'symbol-narrow':transaction.money ===
+                    MoneyTypes.EUR ? '1.2-2' :
+                    '1.0-0'}}
                 </span>
             </div>
         </div>
@@ -36,3 +45,5 @@
         }
     </div>
 </section>
+
+<pay-form #payForm (saved)="transactionSaved()" />

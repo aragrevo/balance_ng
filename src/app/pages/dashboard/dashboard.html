@@ -49,11 +49,11 @@
       <my-balance [data]="balance()" [transactions]="transactions()" [incomes]="incomes()" (refresh)="refreshData()" />
     </div>
     <div id="income" class="px-0" [class]="tab() === 'income' ? 'block fade-in' : 'hidden'">
-      <incoming-bills [incomes]="incomes()" />
+      <incoming-bills [incomes]="incomes()" (refresh)="refreshData()" />
     </div>
     <div id="transactions" class="px-0" [class]="tab() === 'transactions' ? 'block fade-in' : 'hidden'">
       @defer {
-      <transactions [transactions]="transactions()" />
+      <transactions [transactions]="transactions()" (refresh)="refreshData()" />
       } @placeholder {
       <fallback />
       }

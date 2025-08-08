@@ -1,10 +1,12 @@
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { MoneyTypes } from '@app/models/money-types.enum';
 import { Transaction } from '@app/models/transaction.model';
+import { ReceiveFormComponent } from '../../components/receive-form/receive-form';
 
 @Component({
   selector: 'incoming-bills',
-  imports: [DatePipe, DecimalPipe, CurrencyPipe],
+  imports: [DatePipe, CurrencyPipe, ReceiveFormComponent],
   templateUrl: './incoming-bills.html',
   styles: `
     :host {
@@ -14,5 +16,11 @@ import { Transaction } from '@app/models/transaction.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IncomingBillsComponent {
+  MoneyTypes = MoneyTypes;
   incomes = input<Transaction[]>([]);
+  refresh = output<void>();
+
+  transactionSaved() {
+    this.refresh.emit();
+  }
 }
