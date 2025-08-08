@@ -50,12 +50,12 @@ import { IncomingBillsComponent } from './sections/incoming-bills/incoming-bills
       width: 100%;
       height: 2px;
       background-color: var(--color-quaternary);
-      transform: scaleX(1);
+      transform: scaleX(0);
       transition: transform 300ms ease-in-out;
     }
 
     li.active::after {
-      transform: scaleX(0);
+      transform: scaleX(1);
     }
   `,
 })

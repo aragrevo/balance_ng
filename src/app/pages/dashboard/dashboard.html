@@ -1,6 +1,6 @@
 <dashboard-layout>
   <!-- Header -->
-  <header class="flex items-center justify-between p-6 ">
+  <header class="flex items-center justify-between p-4 ">
     <div class="flex items-center gap-3">
       @let userData = user();
       @if (userData) {
@@ -21,21 +21,18 @@
 
   @let selectedTab = tab();
   <nav
-    class="mb-8 flex items-center justify-between sticky top-0  backdrop-blur-xs bg-[#000033]/20 px-6 pt-1 shadow-2xl border-b-1">
+    class="mb-8 flex items-center justify-between sticky top-0  backdrop-blur-xs bg-[#000033]/20 px-4 pt-1 shadow-2xl border-b-1">
 
     <ul class="flex items-center gap-2 text-sm leading-none text-quaternary">
-      <li class="font-medium p-2" [class.active]="selectedTab !== 'balance'">
+      <li class="font-medium p-2" [class.active]="selectedTab === 'balance'">
         <a href="javascript:void(0);" (click)="changeTab('balance')" [class.opacity-100]="selectedTab === 'balance'"
           [class.opacity-50]="selectedTab !== 'balance'" class="tab transition-opacity">My Balance </a>
       </li>
-      <li class="font-medium p-2" [class.active]="selectedTab !== 'income'">
-
-
+      <li class="font-medium p-2" [class.active]="selectedTab === 'income'">
         <a href="javascript:void(0);" (click)="changeTab('income')" [class.opacity-100]="selectedTab === 'income'"
           [class.opacity-50]="selectedTab !== 'income'" class="tab transition-opacity">Incoming Bills </a>
       </li>
-      <li class="font-medium p-2" [class.active]="selectedTab !== 'transactions'">
-
+      <li class="font-medium p-2" [class.active]="selectedTab === 'transactions'">
         <a href="javascript:void(0);" (click)="changeTab('transactions')"
           [class.opacity-100]="selectedTab === 'transactions'" [class.opacity-50]="selectedTab !== 'transactions'"
           class="tab transition-opacity">Transactions </a>
@@ -44,7 +41,7 @@
     <money-selector />
   </nav>
 
-  <div class="tabs px-6 ">
+  <div class="tabs px-4 ">
     <div id="balance" class="transition-all h-full" [class]="tab() === 'balance' ? 'block fade-in' : 'hidden'">
       <my-balance [data]="balance()" [transactions]="transactions()" [incomes]="incomes()" (refresh)="refreshData()" />
     </div>
