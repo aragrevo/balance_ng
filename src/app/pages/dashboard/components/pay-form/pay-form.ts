@@ -1,5 +1,6 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { CategorySelectComponent } from '@app/components/category-select/category-select';
 import { OffcanvasComponent } from '@app/components/offcanvas';
 import { Category } from '@app/models/category.model';
 import { MoneyTypes } from '@app/models/money-types.enum';
@@ -9,14 +10,11 @@ import { TransactionsService } from '@app/services/transactions.service';
 
 @Component({
   selector: 'pay-form',
-  imports: [FormsModule, OffcanvasComponent],
+  imports: [FormsModule, OffcanvasComponent, CategorySelectComponent],
   templateUrl: './pay-form.html',
   styles: `
     :host {
       display: block;
-    }
-    .active {
-      background-color: color-mix(in oklab, #fff 15%, transparent);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +29,6 @@ export class PayFormComponent {
   protected saving = signal(false);
   isOffcanvasPayOpen = signal(false);
 
-  protected open = signal(false);
   protected selectedCategory = signal<Category | null>(null);
 
 
@@ -60,6 +57,7 @@ export class PayFormComponent {
 
   private saveTransaction(transaction: Transaction) {
     transaction.description = this.selectedCategory()!.id;
+
     this.transactionsSvc.saveTransaction(transaction).then(data => {
       this.saved.emit(true);
       this.isOffcanvasPayOpen.set(false);
@@ -80,11 +78,5 @@ export class PayFormComponent {
       this.saving.set(true);
       this.saveTransaction(form.value);
     }
-  }
-
-  onSelectCategory(category: Category) {
-    this.selectedCategory.set(category);
-    this.open.set(false);
-
   }
 }

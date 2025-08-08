@@ -1,5 +1,6 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, inject, model, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { CategorySelectComponent } from '@app/components/category-select/category-select';
 import { OffcanvasComponent } from '@app/components/offcanvas';
 import { ActionButtonDirective } from '@app/directives/action-button.directive';
 import { Category } from '@app/models/category.model';
@@ -9,42 +10,12 @@ import { IncomesService } from '@app/services/incomes.service';
 
 @Component({
   selector: 'receive-form',
-  imports: [FormsModule, ActionButtonDirective, OffcanvasComponent],
+  imports: [FormsModule, ActionButtonDirective, OffcanvasComponent, CategorySelectComponent],
   templateUrl: './receive-form.html',
   styles: `
     :host {
       display: block;
     }
-    .custom-select {
-    &,
-    &::picker(select) {
-      appearance: base-select;
-    }
-  }
-
-  .custom-select {
-    &::picker(select) {
-      background-color: transparent;
-      border: none;
-      opacity: 0;
-      transition: all 0.4s allow-discrete;
-      max-width: 200px;
-    }
-    &::picker(select):popover-open {
-      opacity: 1;
-    }
-    @starting-style {
-      &::picker(select):popover-open {
-        opacity: 0;
-      }
-    }
-    &::picker(select) {
-      top: calc(anchor(bottom) + 5px);
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 200px;
-    }
-  }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -58,6 +29,7 @@ export class ReceiveFormComponent {
   private readonly adminSvc = inject(AdminService);
   private readonly incomesSvc = inject(IncomesService);
 
+  protected selectedCategory = signal<Category | null>(null);
   protected receiveTransaction = model<Partial<Transaction>>({
     // description: '-1',
     observation: ''
@@ -74,6 +46,7 @@ export class ReceiveFormComponent {
   }
 
   private saveTransaction(transaction: Transaction) {
+    transaction.description = this.selectedCategory()!.id;
     this.incomesSvc.saveIncome(transaction).then(data => {
       this.saved.emit(true);
       this.isOffcanvasReceiveOpen.set(false);
@@ -85,6 +58,11 @@ export class ReceiveFormComponent {
   }
 
   onSubmit() {
+    if (!this.selectedCategory()) {
+      alert('Selecciona una categoria');
+      return;
+    }
+
     const form = this.receiveForm()?.form!;
     if (form.valid) {
       this.saving.set(true);

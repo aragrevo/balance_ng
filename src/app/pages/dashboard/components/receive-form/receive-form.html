@@ -5,23 +5,7 @@
     <form #receiveForm="ngForm" (ngSubmit)="onSubmit()" class="mb-16 flex flex-col gap-12">
         <div class="flex flex-col gap-8">
 
-            <select name="description" [(ngModel)]="receiveTransaction().description" required placeholder="Category"
-                class="custom-select rounded-full border border-white/80 bg-transparent px-4 py-2 text-xl text-white placeholder:text-white/30 focus:outline-none">
-                <div
-                    class="flex max-w-56 flex-col gap-2 overflow-x-auto overflow-y-auto rounded-xl bg-[#242832] px-4 py-2 max-h-96 scrollbar-hide scroll-smooth">
-                    <option selected disabled class="px-2 py-1 text-center text-sm text-white/20" value="-1">
-                        Choose a category
-                    </option>
-                    @for (category of categories(); track category.id) {
-                    <option
-                        class="max-w-64 rounded-md bg-[#242832] px-2 py-1 text-base font-bold text-[#7e8590] backdrop-blur-2xl transition-all duration-300 hover:translate-x-px hover:-translate-y-px hover:cursor-pointer hover:bg-[#382d47d5] hover:text-white"
-                        [value]="category.id">
-                        <img [src]="`/icons/${category.id}.svg`" [alt]="category.name" class="h-6 w-6" />
-                        {{category.name}}
-                    </option>
-                    }
-                </div>
-            </select>
+            <category-select [categories]="categories()" [(selectedCategory)]="selectedCategory" />
             <input id="pay-form-observation" type="text" name="observation" placeholder="Observation"
                 [(ngModel)]="receiveTransaction().observation"
                 class="rounded-full border border-white/80 bg-transparent px-4 py-2 text-xl text-white placeholder:text-white/30 focus:outline-none" />
