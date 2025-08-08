@@ -68,8 +68,10 @@ export class PayFormComponent {
     afterNextRender(() => {
       this.adminSvc.getExpenseCategories().then(categories => {
         this.categories.set(categories);
+        alert('Categorias obtenidas');
       }).catch(error => {
         console.error(error);
+        alert('Error al obtener las categorias' + error);
       })
     })
 
