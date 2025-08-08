@@ -15,24 +15,8 @@
     <div class="scrollbar-hide space-y-4 overflow-y-auto pb-14">
         <distribution-overview [balance]="balance()" />
 
-        <!-- <MonthlyComparison
-          currentMonthTransactions={currentMonthTransactions}
-          lastMonthTransactions={lastMonthTransactions}
-          beforeLastMonthTransactions={beforeLastMonthTransactions}
-          categories={categories}
-        /> -->
-        <article class="p-4">
-            <h2 class="mb-6 text-xl text-white">Monthly Comparison</h2>
-            <div
-                class="flex justify-center rounded-md border border-white/10 bg-transparent bg-gradient-to-br p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-3xl">
-                <!-- <BarChart
-      labels={barChartLabels}
-      datasets={barChartDatasets}
-      width={360}
-      height={300}
-    /> -->
-            </div>
-        </article>
+        <monthly-comparison [categories]="categories()" [transactions]="transactions()" />
+
 
         <article class="bg-navy-800 rounded-lg p-4 shadow-lg">
             <h2 class="mb-6 text-xl text-white">Monthly Expense Trend</h2>

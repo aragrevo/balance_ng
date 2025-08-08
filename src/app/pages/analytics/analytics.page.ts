@@ -7,10 +7,15 @@ import { MoneyTypes } from '@app/models/money-types.enum';
 import { BalanceData } from '@app/models/user.model';
 import { BalanceService } from '@app/services/balance.service';
 import { DistributionOverviewComponent } from './sections/distribution-overview/distribution-overview';
+import { MonthlyComparisonComponent } from './sections/monthly-comparison/monthly-comparison';
+import { Transaction } from '@app/models/transaction.model';
+import { TransactionsService } from '@app/services/transactions.service';
+import { Category } from '@app/models/category.model';
+import { AdminService } from '@app/services/admin.service';
 
 @Component({
   selector: 'analytics',
-  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, DistributionOverviewComponent],
+  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, DistributionOverviewComponent, MonthlyComparisonComponent],
   templateUrl: './analytics.page.html',
   styles: `
     :host {
@@ -21,8 +26,13 @@ import { DistributionOverviewComponent } from './sections/distribution-overview/
 })
 export class AnalyticsComponent {
   balance = signal<Record<MoneyTypes, BalanceData> | null>(null);
+  transactions = signal<Transaction[]>([]);
+  protected readonly categories = signal<Category[]>([]);
 
   private readonly balanceService = inject(BalanceService);
+  private readonly transactionsService = inject(TransactionsService);
+  private readonly adminSvc = inject(AdminService);
+
   constructor() {
     afterNextRender(() => {
       this.loadData();
@@ -31,8 +41,8 @@ export class AnalyticsComponent {
 
   private loadData() {
     this.loadBalance();
-    // this.loadTransactions();
-    // this.loadIncomes();
+    this.loadTransactions();
+    this.loadCategories();
   }
 
   private loadBalance() {
@@ -45,5 +55,25 @@ export class AnalyticsComponent {
         console.log(err);
       })
 
+  }
+
+  private loadTransactions() {
+    const startDate = getStartOfMonth(new Date(), 6).toISOString();
+    const endDate = getEndOfMonth().toISOString();
+    this.transactionsService.getTransactions(startDate, endDate)
+      .then(res => {
+        this.transactions.set(res);
+      }).catch(err => {
+        console.log(err);
+      })
+
+  }
+
+  private loadCategories() {
+    this.adminSvc.getExpenseCategories().then(categories => {
+      this.categories.set(categories);
+    }).catch(error => {
+      console.error(error);
+    })
   }
 }
