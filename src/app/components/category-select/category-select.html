@@ -1,0 +1,28 @@
+<div class="relative flex items-center gap-2 w-full">
+    <button type="button" (click)="open.set(!open())"
+        class="flex justify-between items-center text-white/30 gap-1 rounded-lg py-2 px-4 hover:cursor-pointer hover:bg-white/10 w-full border border-white/5 shadow">
+        <span class="flex items-center gap-2">
+            @if (selectedCategory()) {
+            <img [src]="`/icons/${selectedCategory()?.id}.svg`" [alt]="selectedCategory()?.name" class="h-6 w-6" />
+            }
+            {{selectedCategory()?.name || 'Selecciona una categoria'}}
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white opacity-70" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+        </svg>
+    </button>
+
+    <div [class.hidden]="!open()" [class.grid]="open()"
+        class="grid-cols-2 absolute top-full right-0 left-0 z-20 mt-1 rounded-lg bg- bg-white/5 transition-all backdrop-blur-md">
+        @for (category of categories(); track category.id) {
+        <button type="button" (click)="onSelectCategory(category)"
+            class=" flex w-full items-center justify-start rounded-lg py-2 px-3 gap-2 hover:cursor-pointer hover:bg-white/10"
+            [class.active]="selectedCategory()?.id === category.id">
+            <img [src]="`/icons/${category.id}.svg`" [alt]="category.name" class="h-6 w-6" />
+            <span class="text-sm font-semibold text-white">{{category.name}}</span>
+        </button>
+        }
+    </div>
+</div>
+<div class="absolute inset-0 bg-black/50 z-10" [class.hidden]="!open()" (click)="open.set(false)"></div>
