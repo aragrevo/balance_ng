@@ -9,7 +9,7 @@ import { AppStateService } from '@app/services/app-state.service';
   imports: [DonutChartComponent],
   template: `
   <article class="p-4">
-            <h2 class="mb-6 text-xl text-white">Distribution Overview</h2>
+            <h2 class="mb-6 text-xl text-white select-none">Distribution Overview</h2>
             <div
                 class="flex justify-center rounded-md border border-white/10 bg-transparent bg-gradient-to-br p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-3xl">
                 <!-- <DonutChart data={chartData} size={300} thickness={50} /> -->

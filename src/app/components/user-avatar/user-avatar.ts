@@ -9,7 +9,7 @@ import { AuthService } from '@app/services/auth.service';
   template: `<img
     src="{{user()?.avatar}}"
     alt="Profile picture {{user()?.name}}"
-    class="h-12 w-12 rounded-full object-cover"
+    class="h-12 w-12 rounded-full object-cover [view-transition-name:user-avatar]"
   />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
