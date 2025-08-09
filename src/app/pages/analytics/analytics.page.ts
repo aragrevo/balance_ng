@@ -1,4 +1,4 @@
-import { afterNextRender, ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { MoneySelectorComponent } from '@app/components/money-selector/money-selector';
 import { UserAvatarComponent } from '@app/components/user-avatar/user-avatar';
 import { DashboardLayoutComponent } from '@app/layouts/dashboard-layout';
@@ -12,10 +12,12 @@ import { Transaction } from '@app/models/transaction.model';
 import { TransactionsService } from '@app/services/transactions.service';
 import { Category } from '@app/models/category.model';
 import { AdminService } from '@app/services/admin.service';
+import { LineChartComponent } from '@app/components/line-chart/line-chart';
+import { AppStateService } from '@app/services/app-state.service';
 
 @Component({
   selector: 'analytics',
-  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, DistributionOverviewComponent, MonthlyComparisonComponent],
+  imports: [DashboardLayoutComponent, UserAvatarComponent, MoneySelectorComponent, DistributionOverviewComponent, MonthlyComparisonComponent, LineChartComponent],
   templateUrl: './analytics.page.html',
   styles: `
     :host {
@@ -32,6 +34,10 @@ export class AnalyticsComponent {
   private readonly balanceService = inject(BalanceService);
   private readonly transactionsService = inject(TransactionsService);
   private readonly adminSvc = inject(AdminService);
+  private readonly appStateSvc = inject(AppStateService);
+
+  protected readonly lineChartData = computed(() => this.buildLineData(this.transactions().filter(transaction => transaction.money === this.appStateSvc.getMoney())));
+
 
   constructor() {
     afterNextRender(() => {
@@ -75,5 +81,20 @@ export class AnalyticsComponent {
     }).catch(error => {
       console.error(error);
     })
+  }
+
+  private buildLineData(transactions: Transaction[]) {
+    const data = transactions.reduce((acc, transaction) => {
+      const month = this.getMonthName(new Date(transaction.date).getMonth() + 1);
+      if (month) {
+        acc[month] = (acc[month] || 0) + transaction.cost;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(data).map(([label, value]) => ({ value: +value.toFixed(2), label }));
+  }
+
+  private getMonthName(month: number) {
+    return new Date(0, month - 1).toLocaleString('es-ES', { month: 'short' });
   }
 }

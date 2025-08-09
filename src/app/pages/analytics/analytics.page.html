@@ -22,7 +22,7 @@
             <h2 class="mb-6 text-xl text-white">Monthly Expense Trend</h2>
             <div
                 class="flex justify-center rounded-md border border-white/10 bg-transparent bg-gradient-to-br p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-3xl">
-                <!-- <LineChart data={lineChartData} width={420} height={300} /> -->
+                <line-chart [data]="lineChartData()" />
             </div>
         </article>
     </div>
