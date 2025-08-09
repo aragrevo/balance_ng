@@ -1,4 +1,5 @@
 <div class="relative">
+  @if (data().length > 0) {
   <svg width="100%" [attr.height]="height" [attr.viewBox]="`0 0 ${width} ${height}`" class="overflow-visible">
     <!-- Líneas de cuadrícula horizontales -->
     @for (item of [1,2,3,4,5]; track $index) {
@@ -8,7 +9,7 @@
       <line [attr.x1]="padding" [attr.y1]="y" [attr.x2]="width - padding" [attr.y2]="y" stroke="#334155"
         stroke-width="1" stroke-dasharray="4 4" />
       <text [attr.x]="padding + 20" [attr.y]="y" text-anchor="end" alignment-baseline="middle"
-        class="fill-gray-400 text-[10px] select-none">
+        class="fill-gray-400 text-[9px] select-none">
         {{value.toLocaleString()}}
       </text>
     </g>
@@ -21,14 +22,14 @@
       <!-- <line [attr.x1]="x" [attr.y1]="padding" [attr.x2]="x" [attr.y2]="height - padding" stroke="#334155"
         stroke-width="1" stroke-dasharray="4 4" /> -->
       <text [attr.x]="x" [attr.y]="height + 18" text-anchor="middle"
-        class="fill-gray-400 text-sm capitalize select-none">
+        class="fill-gray-400 text-xs capitalize select-none">
         {{point.label}}
       </text>
     </g>
     }
 
     <!-- Área bajo la línea -->
-    <path d={areaPath} fill="url(#gradient)" opacity="0.1"></path>
+    <path [attr.d]="areaPath()" fill="url(#gradient)" opacity="0.1"></path>
 
     <!-- Línea principal -->
     <path [attr.d]="linePath()" fill="none" stroke="#A5B4FC" stroke-width="3" stroke-linecap="round"
@@ -54,4 +55,17 @@
       </linearGradient>
     </defs>
   </svg>
+  } @else {
+  <div class="text-center py-12">
+    <div class="text-gray-400 mb-2">
+      <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+        </path>
+      </svg>
+    </div>
+    <p class="text-gray-400">No hay datos de transacciones para mostrar</p>
+    <p class="text-sm text-gray-500 mt-1">Las transacciones de los últimos 3 meses aparecerán aquí</p>
+  </div>
+  }
 </div>

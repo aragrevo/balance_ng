@@ -30,6 +30,7 @@ export class LineChartComponent {
       return index === 0 ? `M ${x} ${y}` : `L ${x} ${y}`;
     })
     .join(" "))
+  protected readonly areaPath = computed(() => `${this.linePath()} L ${this.scaleX(this.data().length - 1)} ${this.height - this.padding} L ${this.padding} ${this.height - this.padding} Z`)
 
   scaleX(index: number) {
     return (index / (this.data().length - 1)) * this.chartWidth + this.padding;

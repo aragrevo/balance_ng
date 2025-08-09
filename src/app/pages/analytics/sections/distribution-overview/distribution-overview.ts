@@ -12,7 +12,6 @@ import { AppStateService } from '@app/services/app-state.service';
             <h2 class="mb-6 text-xl text-white select-none">Distribution Overview</h2>
             <div
                 class="flex justify-center rounded-md border border-white/10 bg-transparent bg-gradient-to-br p-4 text-white shadow-2xl shadow-white/5 backdrop-blur-3xl">
-                <!-- <DonutChart data={chartData} size={300} thickness={50} /> -->
                  <donut-chart [data]="chartData()" />
             </div>
         </article>
